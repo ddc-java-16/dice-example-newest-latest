@@ -15,7 +15,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        resValue("string", "base-url", "https://www.dejete.com/" )
+        resValue("string", "base_url", "https://www.dejete.com/" )
     }
 
     buildTypes {

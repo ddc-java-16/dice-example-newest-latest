@@ -18,7 +18,7 @@ public interface DiceServiceProxy {
 
 
 @GET("api")
-  Single<Roll[]> rollDice(@Query(value = "nvde") int numberOfDice, @Query("tbde") int numberOfSides);
+  Single<Roll[]> rollDice(@Query(value = "nbde") int numberOfDice, @Query("tpde") int numberOfSides);
 
 static DiceServiceProxy getInstance() {
   return InstanceHolder.INSTANCE;
@@ -42,7 +42,7 @@ class InstanceHolder{
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .client(client)
         .build();
-    INSTANCE = retrofit.create(DiceServiceProxy.class)
+    INSTANCE = retrofit.create(DiceServiceProxy.class);
 
   }
 

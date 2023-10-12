@@ -2,11 +2,13 @@ package edu.cnm.deepdive.diceexample;
 
 import android.util.Log;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.diceexample.databinding.ActivityMainBinding;
+import edu.cnm.deepdive.diceexample.model.Roll;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,16 +22,16 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-    OnClickListener listener = (v) -> Log.d(getClass().getSimpleName(), ((Button) v).getText() + "");
-   binding.first.setOnClickListener(listener);
-    binding.second.setOnClickListener(listener);
-    binding.third.setOnClickListener((v) -> viewmodel.rollDice(20, 9));
+    setupViewmodel();
+    binding.roll.setOnClickListener((v) -> viewmodel.rollDice(20, 60));
   }
 
   private void setupViewmodel () {
     viewmodel = new ViewModelProvider(this).get(DiceRollViewModel.class);
-    viewmodel.getDiceRoll().observe(this, (rolls) -> Log.d(getClass().getSimpleName(),
-        Arrays.toString(rolls)));
+    viewmodel.getDiceRoll().observe(this, (rolls) -> {
+      ArrayAdapter<Roll> adapter = new ArrayAdapter<Roll>(this, android.R.layout.simple_list_item_1, rolls);
+      binding.rollValues.setAdapter(adapter);
+    });
     viewmodel.getThrowable()
         .observe(this, (throwable -> {
           if (throwable != null) {
